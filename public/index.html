@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Send Forex Signal</h1>
+    <p id="message" style="color: green;"></p>
+    <form action="">
+      <input id="signalName" placeholder="Signal Name"/>
+      <br>
+      <br>
+      <input id="trade_id" placeholder="Trade ID"/>
+      <br>
+      <br>
+      <input id="prediction" placeholder="Prediction"/>
+      <br>
+      <br>
+      <label for="paid">Paid Signal</label>
+      <select id="paid">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+      </select>
+      <br>
+      <br>
+      <button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+     $(function () {
+        var socket = io();
+        
+        $('form').submit(function(e) {
+        e.preventDefault();
+        $("#message").html('');
+        var signalName=$('#signalName').val();
+        var trade_id=$('#trade_id').val();
+        var prediction=$('#prediction').val();
+        var paid=$('#paid').val();
+        $.post("/signal/create", {signalName:signalName,trade_id:trade_id,prediction:prediction,paid:paid}, function(result){
+            $("#message").html(result);
+        });
+        //return false;
+        });
+    });
+
+        
+    </script>
+
+</body>
+</html>
